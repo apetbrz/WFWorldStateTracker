@@ -16,7 +16,7 @@ function setCurrentTime(){
 setInterval(setCurrentTime,1000);
 
 function refresh(){
-    const xhttp = new XMLHttpRequest();
+    let xhttp = new XMLHttpRequest();
     
     xhttp.onload = function(){
         console.log("data loaded at " + Date.now());
