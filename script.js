@@ -13,6 +13,7 @@ function setCurrentTime(){
     currenttimetext.innerHTML = "LOCAL TIME: " + new Date().toLocaleTimeString();
 }
 
+setCurrentTime();
 setInterval(setCurrentTime,1000);
 
 function refresh(){
@@ -72,4 +73,5 @@ function checkForFissure(data, missionType){
     return output;
 }
 
-setInterval(refresh(), 10000)
+refresh();
+setInterval(refresh, 15000)
