@@ -41,7 +41,6 @@ async function refresh(){
 }
 
 function populatePage(data){
-    let date = new Date();
     e = document.getElementById("li2");
     e.innerHTML = data == null ? "requestfailed":"data got!";
 
