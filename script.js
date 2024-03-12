@@ -97,24 +97,24 @@ function nodeToFaction(node){
 
 function checkForFissure(data, missionType){
     let fissures = data.ActiveMissions;
-    let output = "no fissure active";
+    let output = "";
     
     fissures.forEach(mission => {
         if(mission.MissionType === missionType){
             let expirationTime = Number(mission.Expiry.$date.$numberLong);
 
             if(expirationTime > Date.now()){
-                output = "FISSURE ACTIVE! until: " + (new Date(Number(mission.Expiry.$date.$numberLong)).toLocaleTimeString());
-                output += "<br>relic: " + mission.Modifier;
+                if(output === "") output = "FISSURE ACTIVE!";
+                output += "<br><br>relic: " + mission.Modifier;
                 output += "<br>planet: " + regionToPlanet(mission.Region);
                 output += "<br>steelpath: " + (mission.Hard != null ? "yes" : "no");
                 output += "<br>faction: " + nodeToFaction(mission.Node);
-            }else{
-                output = "fissure ended! :(";
+                output += "until: " + (new Date(Number(mission.Expiry.$date.$numberLong)).toLocaleTimeString());
             }
         }
     });
 
+    if(output === "") output = "no fissure active";
     return output;
 }
 
