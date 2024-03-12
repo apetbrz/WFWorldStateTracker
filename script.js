@@ -1,14 +1,17 @@
 const corsproxy = "https://corsproxy.org/?";
 const worldstatefileurl = 'http://content.warframe.com/dynamic/worldState.php';
-const solnodesdata = "https://api.warframestat.us/solNodes/";
+const solnodesdata = 'https://api.warframestat.us/solNodes/';
 
 const currenttimetext = document.getElementById("time");
 const refreshtimetext = document.getElementById("refresh");
 
-var solNodes;
 let xhttp = new XMLHttpRequest();
+var solNodes;
+
 xhttp.onload = function(){
     solNodes = JSON.parse(this.responseText);
+    console.log("SOLNODES LOADED: " + solNodes[0]);
+    xhttp = null;
 }
 xhttp.open("GET",solnodesdata);
 xhttp.send();
@@ -25,18 +28,16 @@ function setCurrentTime(){
 setCurrentTime();
 setInterval(setCurrentTime,1000);
 
-function refresh(){
-    xhttp = new XMLHttpRequest();
-    
-    xhttp.onload = function(){
-        let wfdata = JSON.parse(this.responseText);
-        let worldstatetime = new Date(wfdata.Time * 1000).toLocaleTimeString()
-        refreshtimetext.innerHTML = "WORLDSTATE TIME: " + worldstatetime;
-        console.log("data loaded at " + new Date().toLocaleTimeString() + " : worldstate time = " + worldstatetime);
-        populatePage(wfdata);
-    }
-    xhttp.open("GET",corsproxy+worldstatefileurl);
-    xhttp.send();
+async function refresh(){
+    let response = await fetch(corsproxy + worldstatefileurl);
+    let wfdata = await response.json();
+    let worldstatetime = new Date(wfdata.Time * 1000).toLocaleTimeString()
+
+    refreshtimetext.innerHTML = "WORLDSTATE TIME: " + worldstatetime;
+
+    console.log("data loaded at " + new Date().toLocaleTimeString() + " : worldstate time = " + worldstatetime);
+
+    populatePage(wfdata);
 }
 
 function populatePage(data){
@@ -89,7 +90,9 @@ function regionToPlanet(region){
 
     }
 }
+
 function nodeToFaction(node){
+    if(solNodes[node] == null) return "";
     return solNodes[node].enemy;
 }
 
@@ -116,5 +119,5 @@ function checkForFissure(data, missionType){
     return output;
 }
 
-refresh();
+refresh()
 setInterval(refresh, 15000)
