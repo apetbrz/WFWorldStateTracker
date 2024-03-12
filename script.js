@@ -62,6 +62,10 @@ function populatePage(data){
     e = document.getElementById("li7");
     e.innerHTML = "Checking for SURVIVAL fissure:\t\t";
     e.innerHTML += checkForFissure(data, "MT_SURVIVAL");
+
+    e = document.getElementById("li8");
+    e.innerHTML = "Checking for RESCUE fissure:\t\t";
+    e.innerHTML += checkForFissure(data, "MT_RESCUE");
 }
 
 function regionToPlanet(region){
@@ -109,7 +113,7 @@ function checkForFissure(data, missionType){
                 output += "<br>planet: " + regionToPlanet(mission.Region);
                 output += "<br>steelpath: " + (mission.Hard != null ? "yes" : "no");
                 output += "<br>faction: " + nodeToFaction(mission.Node);
-                output += "until: " + (new Date(Number(mission.Expiry.$date.$numberLong)).toLocaleTimeString());
+                output += "<br>until: " + (new Date(Number(mission.Expiry.$date.$numberLong)).toLocaleTimeString());
             }
         }
     });
