@@ -1,5 +1,5 @@
-const corsproxy = "https://corsproxy.org/?";
-const worldstatefileurl = 'http://content.warframe.com/dynamic/worldState.php';
+const corsproxy = "https://corsproxy.io/?";
+const worldstatefileurl = encodeURIComponent("http://content.warframe.com/dynamic/worldState.php");
 const solnodesdata = 'https://api.warframestat.us/solNodes/';
 
 const currenttimetext = document.getElementById("time");
@@ -10,7 +10,7 @@ var solNodes;
 
 xhttp.onload = function(){
     solNodes = JSON.parse(this.responseText);
-    console.log("SOLNODES LOADED: " + solNodes[0]);
+    console.log("SOLNODES LOAD: " + (solNodes != null ? "SUCCESS" : "FAILURE"));
     xhttp = null;
 }
 xhttp.open("GET",solnodesdata);
